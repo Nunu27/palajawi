@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,12 +12,13 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('foto_profil');
+            $table->string('foto_profil')->nullable();
             $table->string('username');
             $table->string('email');
             $table->string('password');
-            $table->string('alamat');
+            $table->string('alamat')->nullable();
             $table->boolean('admin');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

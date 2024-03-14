@@ -8,6 +8,7 @@ use WendellAdriel\Lift\Attributes\Fillable;
 use WendellAdriel\Lift\Attributes\PrimaryKey;
 use WendellAdriel\Lift\Lift;
 
+// TODO: finish up the rule
 
 #[DB(table: 'kategori', timestamps: false)]
 class Kategori extends Model

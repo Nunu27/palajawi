@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use WendellAdriel\Lift\Attributes\Cast;
 use WendellAdriel\Lift\Attributes\Config;
 use WendellAdriel\Lift\Attributes\DB;
 use WendellAdriel\Lift\Attributes\Fillable;
 use WendellAdriel\Lift\Attributes\PrimaryKey;
 use WendellAdriel\Lift\Lift;
+
+// TODO: finish up the rule
 
 #[DB(table: 'ulasan')]
 class Ulasan extends Model
@@ -26,4 +30,8 @@ class Ulasan extends Model
     public array $lampiran;
     #[Fillable]
     public string $deskripsi;
+    #[Cast('datetime')]
+    public Carbon $created_at;
+    #[Cast('datetime')]
+    public Carbon $updated_at;
 }

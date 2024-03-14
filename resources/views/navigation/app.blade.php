@@ -16,14 +16,7 @@
                 </div>
             </div>
 
-            <div class="hidden gap-3 sm:-my-px sm:ms-10 sm:flex">
-                <x-button.primary onclick="window.location='{{ route('login') }}'">
-                    Masuk
-                </x-button.primary>
-                <x-button.secondary onclick="window.location='{{ route('register') }}'">
-                    Daftar
-                </x-button.secondary>
-            </div>
+            <x-account-button />
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
@@ -53,12 +46,12 @@
 
         <!-- Responsive Settings Options -->
         <div class="flex gap-1 border-t border-gray-200 p-4">
-            <x-button.primary onclick="window.location='{{ route('login') }}'">
+            <x-button.a-primary href="{{ route('login') }}">
                 Masuk
-            </x-button.primary>
-            <x-button.secondary onclick="window.location='{{ route('register') }}'">
+            </x-button.a-primary>
+            <x-button.a-secondary href="{{ route('register') }}">
                 Daftar
-            </x-button.secondary>
+            </x-button.a-secondary>
         </div>
     </div>
 </nav>

@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use WendellAdriel\Lift\Attributes\Cast;
+use WendellAdriel\Lift\Attributes\Config;
 use WendellAdriel\Lift\Attributes\DB;
 use WendellAdriel\Lift\Attributes\Fillable;
 use WendellAdriel\Lift\Attributes\PrimaryKey;
@@ -32,10 +35,13 @@ class Transaksi extends Model
     public string $id;
     #[Fillable]
     public int $id_user;
-    #[Fillable]
     public int $total_harga;
-    #[Fillable]
+    #[Config(fillable: true, cast: MetodePembayaran::class)]
     public MetodePembayaran $metode_pembayaran;
-    #[Fillable]
+    #[Config(cast: StatusTransaksi::class, default: StatusTransaksi::MenungguPembayaran)]
     public StatusTransaksi $status;
+    #[Cast('datetime')]
+    public Carbon $created_at;
+    #[Cast('datetime')]
+    public Carbon $updated_at;
 }

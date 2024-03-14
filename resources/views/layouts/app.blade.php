@@ -1,4 +1,6 @@
-<x-root-layout>
+@props(['title'])
+
+<x-root-layout title="{{ $title }}">
     <div class="min-h-screen bg-gray-100">
         @include('navigation.app')
 

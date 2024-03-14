@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,7 +18,7 @@ return new class extends Migration
             $table->index('id_barang');
             $table->foreign('id_barang')->references('id')->on('barang')->onDelete('cascade');
 
-            $table->primary(array('id_kategori', 'id_barang'));
+            $table->primary(array ('id_kategori', 'id_barang'));
         });
     }
 

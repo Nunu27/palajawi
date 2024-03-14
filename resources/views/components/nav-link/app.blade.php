@@ -1,8 +1,8 @@
-@props(['href', 'route', 'active'])
+@props(['route', 'active'])
 
 @php
-    $href = $href ?? isset($route) ? route($route) : '';
     $active = $active ?? isset($route) ? request()->routeIs($route) : false;
+    $href = $active || !isset($route) ? '#' : route($route);
     $classes =
         $active ?? false
             ? 'border-indigo-400 text-gray-900 focus:border-indigo-700'

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use WendellAdriel\Lift\Attributes\Config;
 use WendellAdriel\Lift\Attributes\DB;
-use WendellAdriel\Lift\Attributes\Fillable;
 use WendellAdriel\Lift\Attributes\PrimaryKey;
 use WendellAdriel\Lift\Lift;
 
@@ -13,12 +13,12 @@ class BarangTransaksi extends Model
 {
     use Lift;
 
-    #[Fillable]
+    #[Config(fillable: true, rules: ['required', 'string'])]
     #[PrimaryKey(type: 'string', incrementing: false)]
     public string $id_transaksi;
-    #[Fillable]
+    #[Config(fillable: true, rules: ['required', 'integer'])]
     #[PrimaryKey(incrementing: false)]
     public int $id_barang;
-    #[Fillable]
+    #[Config(fillable: true, rules: ['required', 'integer'])]
     public int $jumlah;
 }

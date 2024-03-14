@@ -1,10 +1,20 @@
 @props(['title'])
 
+@php
+    $sideBarOpen = isset($_COOKIE['sideBarOpen']) ? $_COOKIE['sideBarOpen'] == 'true' : false;
+@endphp
+
 <x-root-layout title="{{ 'Dashboard' . (isset($title) ? ' - ' . $title : '') }}">
-    <div class="flex h-screen overflow-y-hidden bg-white" x-data="{
-        sideBarOpen: false,
+    <div class="flex h-screen overflow-y-hidden bg-white" x-cloak x-data="{
+        sideBarOpen: {{ $sideBarOpen ? 'true' : 'false' }},
         toggle() {
             this.sideBarOpen = !this.sideBarOpen
+            document.cookie = `sideBarOpen=${this.sideBarOpen}; path=/`;
+        },
+        init() {
+            if (window.innerWidth < 1024 && this.sideBarOpen) {
+                this.toggle();
+            }
         }
     }">
         <!-- Sidebar backdrop -->
@@ -36,17 +46,17 @@
             <!-- Sidebar links -->
             <nav class="flex-1 overflow-hidden hover:overflow-y-auto">
                 <ul class="space-y-2 overflow-hidden p-2">
-                    <x-nav-link.dashboard route='dashboard' icon='gmdi-dashboard-o' iconActive='gmdi-dashboard-r'>
+                    <x-nav-link.dashboard icon='gmdi-dashboard-o' iconActive='gmdi-dashboard-r'>
                         Dashboard
                     </x-nav-link.dashboard>
-                    <x-nav-link.dashboard route='dashboard-barang' icon='gmdi-list-alt' iconActive='gmdi-list-alt-tt'>
+                    <x-nav-link.dashboard route='barang' icon='gmdi-list-alt' iconActive='gmdi-list-alt-tt'>
                         Barang
                     </x-nav-link.dashboard>
-                    <x-nav-link.dashboard route='dashboard-transaksi' icon='gmdi-receipt-long-o'
+                    <x-nav-link.dashboard route='transaksi' icon='gmdi-receipt-long-o'
                         iconActive='gmdi-receipt-long-tt'>
                         Transaksi
                     </x-nav-link.dashboard>
-                    <x-nav-link.dashboard route='dashboard-user' icon='gmdi-people-outline' iconActive='gmdi-people-r'>
+                    <x-nav-link.dashboard route='user' icon='gmdi-people-outline' iconActive='gmdi-people-r'>
                         Pengguna
                     </x-nav-link.dashboard>
                     <!-- Sidebar Links... -->
@@ -54,11 +64,13 @@
             </nav>
             <!-- Sidebar footer -->
             <div class="max-h-14 flex-shrink-0 border-t p-2">
-                <button
-                    class="flex w-full items-center justify-center space-x-1 rounded-md border bg-gray-100 px-4 py-2 font-medium uppercase tracking-wider focus:outline-none focus:ring">
-                    <x-gmdi-logout-r class="h-5" />
-                    <span :class="{ 'hidden': !sideBarOpen }"> Logout </span>
-                </button>
+                <form action="{{ route('logout') }}" method="post">
+                    <button type="submit"
+                        class="flex w-full items-center justify-center space-x-1 rounded-md border bg-gray-100 px-4 py-2 font-medium tracking-wider focus:outline-none focus:ring">
+                        <x-gmdi-logout-r class="h-5" />
+                        <span :class="{ 'hidden': !sideBarOpen }"> Logout </span>
+                    </button>
+                </form>
             </div>
         </aside>
 
@@ -84,7 +96,7 @@
                     <x-account-button />
             </header>
             <!-- Main content -->
-            <main class="max-h-full flex-1 overflow-hidden overflow-y-scroll p-5">
+            <main class="max-h-full flex-1 overflow-hidden overflow-y-scroll bg-gray-100 p-5">
                 {{ $slot }}
             </main>
             <!-- Main footer -->
