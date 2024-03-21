@@ -6,15 +6,27 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+// TODO: Finish up controller
+
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $list = User::orderBy('id')->cursorPaginate($perPage = 15, $columns = ['id']);
-        return view('dashboard.user.list', compact('list'));
+        $perPage = $request->input("per_page", 10);
+        $query = $request->input("query");
+        $route = 'user';
+        $headers = ['ID', 'Email', 'Nama', 'Admin'];
+        $columns = ['id', 'email', 'username', 'admin'];
+        $actions = ['view'];
+        $data = User::orderBy('id');
+        if ($query)
+            $data->whereFullText(['email', 'username'], $query);
+        $list = $data->paginate($perPage, $columns)->appends($request->except('page'));
+
+        return view('dashboard.user.list', compact('route', 'headers', 'columns', 'actions', 'list'));
     }
 
     /**
@@ -39,8 +51,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::find($id);
-        return view('dashboard.user.detail', compact('user'));
+        return view('dashboard.user.detail', ['user', User::find($id)]);
     }
 
     /**
@@ -49,7 +60,7 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         User::find($id)->castAndUpdate($request->all());
-        return to_route('barang.show', compact(['id']));
+        return to_route('barang.show', compact('id'));
     }
 
     /**

@@ -13,15 +13,18 @@ return new class extends Migration {
         Schema::create('barang', function (Blueprint $table) {
             $table->id();
             $table->string('cover');
-            $table->json('list_gambar')->nullable();
             $table->string('nama');
-            $table->json('nama_lain')->nullable();
+            $table->string('id_kategori');
+            $table->index('id_kategori');
+            $table->foreign('id_kategori')->references('id')->on('kategori')->onDelete('cascade');
             $table->string('deskripsi');
             $table->float('rating');
             $table->integer('jumlah_rating');
             $table->integer('harga');
             $table->integer('stok');
             $table->timestamps();
+
+            $table->fullText(['nama', 'deskripsi']);
         });
     }
 

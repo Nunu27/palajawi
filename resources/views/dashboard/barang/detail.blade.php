@@ -1,3 +1,4 @@
 <x-dashboard-layout title='Detail Barang'>
-    <x-button.secondary onclick="history.back()">Kembali</x-button.secondary>
+    {{-- TODO: Detail barang dashboard (copas dari tambah) --}}
+    <x-button.a-secondary href="{{ route('barang.index') }}">Kembali</x-button.a-secondary>
 </x-dashboard-layout>

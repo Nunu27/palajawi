@@ -1,4 +1,6 @@
 <x-app-layout title="Beranda">
+    {{-- TODO: Beranda UI --}}
+
     <h1 class="my-5 text-2xl">Daftar kategori</h1>
     <div class="flex gap-5">
         <x-card.kategori nama="Mentah" />

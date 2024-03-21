@@ -30,6 +30,11 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // TODO: upload cover to S3
         Barang::castAndCreate($request->all());
         return to_route('barang.index')->with('success', '');
     }
@@ -55,6 +60,7 @@ class BarangController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // TODO: update cover if differ
         Barang::find($id)->castAndUpdate($request->all());
         return to_route('barang.show', compact(['id']));
     }
@@ -64,6 +70,7 @@ class BarangController extends Controller
      */
     public function destroy(string $id)
     {
+        // TODO: Delete cover from S3
         Barang::find($id)->delete();
         return to_route('barang.index');
     }

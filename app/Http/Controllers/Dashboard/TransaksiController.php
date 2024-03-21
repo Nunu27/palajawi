@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 
+// TODO: Finish up controller
+
 class TransaksiController extends Controller
 {
     /**

@@ -20,6 +20,7 @@
 
 <body class="font-sans antialiased">
     {{ $slot }}
+    <x-toast-manager />
 </body>
 
 </html>

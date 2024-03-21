@@ -3,8 +3,10 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
             <div class="flex">
-                <a href="{{ route('home') }}">
+                <a href="{{ route('home') }}"
+                    class="flex items-center gap-4 whitespace-nowrap text-xl font-semibold uppercase">
                     <x-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    Palajawi
                 </a>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link.app route="home">

@@ -33,15 +33,24 @@ class AuthenticationController extends Controller
             Auth::login($user);
         }
 
-        return to_route('home');
+        return $request->expectsJson() ? [
+            'success' => true,
+            'message' => 'Berhasil mendaftar',
+            'redirect' => route('home')
+        ] : to_route('home');
     }
     public function authenticate(LoginRequest $request)
     {
         $request->authenticate();
         $request->session()->regenerate();
         $user = $request->user();
+        $route = $user->admin ? 'dashboard' : 'home';
 
-        return to_route($user->admin ? 'dashboard' : 'home');
+        return $request->expectsJson() ? [
+            'success' => true,
+            'message' => 'Berhasil masuk',
+            'redirect' => route($route)
+        ] : to_route($route);
     }
     public function logout(Request $request)
     {

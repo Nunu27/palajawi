@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use WendellAdriel\Lift\Attributes\DB;
 use WendellAdriel\Lift\Attributes\Fillable;
 use WendellAdriel\Lift\Attributes\PrimaryKey;
+use WendellAdriel\Lift\Attributes\Relations\BelongsTo;
 use WendellAdriel\Lift\Lift;
 
 // TODO: finish up the rule
 
 #[DB(table: 'kategori', timestamps: false)]
+#[BelongsTo(Barang::class)]
 class Kategori extends Model
 {
     use Lift;

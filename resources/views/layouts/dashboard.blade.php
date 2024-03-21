@@ -64,13 +64,11 @@
             </nav>
             <!-- Sidebar footer -->
             <div class="max-h-14 flex-shrink-0 border-t p-2">
-                <form action="{{ route('logout') }}" method="post">
-                    <button type="submit"
-                        class="flex w-full items-center justify-center space-x-1 rounded-md border bg-gray-100 px-4 py-2 font-medium tracking-wider focus:outline-none focus:ring">
-                        <x-gmdi-logout-r class="h-5" />
-                        <span :class="{ 'hidden': !sideBarOpen }"> Logout </span>
-                    </button>
-                </form>
+                <a href="{{ route('logout') }}"
+                    class="flex w-full items-center justify-center space-x-1 rounded-md border bg-gray-100 px-4 py-2 font-medium tracking-wider focus:outline-none focus:ring">
+                    <x-gmdi-logout-r class="h-5" />
+                    <span :class="{ 'hidden': !sideBarOpen }"> Logout </span>
+                </a>
             </div>
         </aside>
 
@@ -96,11 +94,11 @@
                     <x-account-button />
             </header>
             <!-- Main content -->
-            <main class="max-h-full flex-1 overflow-hidden overflow-y-scroll bg-gray-100 p-5">
+            <main class="max-h-full flex-1 overflow-hidden overflow-y-auto bg-gray-100 p-5">
                 {{ $slot }}
             </main>
             <!-- Main footer -->
-            <footer class="flex max-h-14 flex-shrink-0 items-center justify-center border-t p-4">
+            <footer class="flex max-h-14 flex-shrink-0 items-center justify-center border-t p-4 uppercase">
                 <div>Palajawi &copy; 2024</div>
             </footer>
         </div>

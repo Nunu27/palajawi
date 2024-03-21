@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+// TODO: Finish up controller
+
 class AuthenticatedController extends Controller
 {
     public function profile(Request $request)
@@ -36,6 +38,11 @@ class AuthenticatedController extends Controller
         $request->session()->regenerateToken();
 
         return to_route('home')->with('success', '');
+    }
+
+    public function cart()
+    {
+        return view('cart');
     }
 
     public function transaksi()

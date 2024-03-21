@@ -11,7 +11,7 @@ Route::get('/kategori/{id}', [PublicController::class, 'category'])->name('categ
 Route::get('/detail/{id}', [PublicController::class, 'detail'])->name('detail');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/cart', [AuthenticatedController::class, 'cart'])->name('cart');
+    Route::get('/keranjang', [AuthenticatedController::class, 'cart'])->name('cart');
     Route::get('/profil', [AuthenticatedController::class, 'profile'])->name('profile');
     Route::post('/profil', [AuthenticatedController::class, 'profile']);
     Route::get('/profil/edit', [AuthenticatedController::class, 'profile'])->name('profile');

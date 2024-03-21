@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use WendellAdriel\Lift\Attributes\Cast;
@@ -15,7 +16,7 @@ use WendellAdriel\Lift\Lift;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Lift;
+    use HasApiTokens, Lift, HasFactory;
 
     #[PrimaryKey]
     public int $id;

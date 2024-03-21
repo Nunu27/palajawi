@@ -5,25 +5,34 @@
 @if (isset($user))
     <div class="relative pr-2" x-data="{ isOpen: false }">
         <div class="flex items-center">
-            <span class="mr-2">{{ $user->username }}</span>
+            <span class="mr-2 hidden md:block">{{ $user->username }}</span>
             <button @click="isOpen = !isOpen" class="flex rounded-full bg-gray-200">
                 <x-gmdi-account-circle-r class="h-9" />
             </button>
         </div>
         <!-- Dropdown card -->
         <div @click.away="isOpen = false" x-show.transition.opacity="isOpen"
-            class="absolute mt-3 min-w-max -translate-x-full transform rounded-md bg-white shadow-lg">
-            <div class="flex flex-col space-y-1 border-b p-4 font-medium">
+            class="absolute mt-3 min-w-max -translate-x-2/4 transform rounded border bg-white shadow-lg">
+            <div class="flex flex-col border-b p-3 font-medium">
                 <span class="text-gray-800">{{ $user->username }}</span>
                 <span class="text-sm text-gray-400">{{ $user->email }}</span>
             </div>
-            <ul class="my-2 flex flex-col space-y-1 p-2">
-                <li>
-                    <a href="#" class="block rounded-md px-2 py-1 transition hover:bg-gray-100">Link</a>
-                </li>
+            <ul class="flex flex-col space-y-1 p-1">
+                @if ($user->admin)
+                    <li>
+                        <a href="{{ route('dashboard') }}"
+                            class="block rounded px-2 py-1 transition hover:bg-gray-100">Dashboard</a>
+                    </li>
+                @else
+                    <li>
+                        <a href="#" class="block rounded px-2 py-1 transition hover:bg-gray-100">
+                            Histori Transaksi
+                        </a>
+                    </li>
+                @endif
             </ul>
-            <div class="flex items-center justify-center border-t p-4 text-blue-700 underline">
-                <a href="{{ route('logout') }}">Logout</a>
+            <div class="border-t p-1 text-red-600">
+                <a href="{{ route('logout') }}" class="block rounded px-2 py-1 transition hover:bg-gray-100">Keluar</a>
             </div>
         </div>
     </div>
