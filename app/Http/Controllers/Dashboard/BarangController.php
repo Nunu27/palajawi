@@ -5,16 +5,27 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BarangController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $list = Barang::orderBy('id')->cursorPaginate($perPage = 15, $columns = ['id', 'cover', 'nama', 'harga']);
-        return view('dashboard.barang.list', compact('list'));
+        $perPage = $request->input("per_page", 10);
+        $query = $request->input("query");
+        $route = 'barang';
+        $headers = ['ID', 'Cover', 'Nama', 'Harga'];
+        $columns = ['id', 'cover', 'nama', 'harga'];
+        $actions = ['view', 'edit', 'delete'];
+        $data = Barang::orderBy('id');
+        if ($query)
+            $data->whereFullText(['nama', 'deskripsi'], $query);
+        $list = $data->paginate($perPage, $columns)->appends($request->except('page'));
+
+        return view('dashboard.barang.list', compact('route', 'headers', 'columns', 'actions', 'list'));
     }
 
     /**
@@ -31,7 +42,7 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'cover' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         // TODO: upload cover to S3
@@ -61,6 +72,7 @@ class BarangController extends Controller
     public function update(Request $request, string $id)
     {
         // TODO: update cover if differ
+
         Barang::find($id)->castAndUpdate($request->all());
         return to_route('barang.show', compact(['id']));
     }
@@ -70,8 +82,10 @@ class BarangController extends Controller
      */
     public function destroy(string $id)
     {
-        // TODO: Delete cover from S3
-        Barang::find($id)->delete();
+        $barang = Barang::find($id);
+        $ext = substr($barang->cover, strrpos($barang->cover, '.'));
+        Storage::disk('s3')->delete($id . $ext);
+        $barang->delete();
         return to_route('barang.index');
     }
 }

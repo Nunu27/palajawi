@@ -14,7 +14,7 @@ use WendellAdriel\Lift\Lift;
 // TODO: finish up the rule
 
 #[DB(table: 'barang')]
-#[HasOne(KategoriBarang::class, 'id_kategori')]
+#[HasOne(Kategori::class, 'id_kategori')]
 class Barang extends Model
 {
     use Lift;

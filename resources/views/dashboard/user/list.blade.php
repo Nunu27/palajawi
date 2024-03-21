@@ -1,5 +1,5 @@
 <x-dashboard-layout title='Daftar Pengguna'>
-    <x-table route="user" :data="$list" :columns="$columns" :headers="['ID', 'Email', 'Nama', 'Admin']" :actions="['view']">
+    <x-table route="{{ $route }}" :data="$list" :columns="$columns" :headers="$headers" :actions="$actions">
         <x-compact-search-bar />
     </x-table>
 </x-dashboard-layout>
