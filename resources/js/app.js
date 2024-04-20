@@ -27,12 +27,7 @@ window.formSubmit = async (e) => {
         const { data: response } = await axios({
             url: form.getAttribute("action"),
             method: form.getAttribute("method") ?? "get",
-            headers: {
-                Accept: "application/json",
-            },
             data: new FormData(form),
-            timeout: 10000,
-            timeoutErrorMessage: "Request timeout",
         });
 
         if (response.success && response.redirect) {
@@ -52,7 +47,6 @@ window.formSubmit = async (e) => {
 
         return response;
     } catch (error) {
-        console.log(error);
         if (error.response) {
             error.response.data.success = false;
             return error.response.data;

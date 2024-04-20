@@ -15,11 +15,11 @@ class Kategori extends Model
 {
     use Lift;
 
-    #[PrimaryKey(type: 'string', incrementing: false)]
+    #[PrimaryKey]
     #[Fillable]
-    public string $id;
+    public int $id;
     #[Fillable]
     public string $nama;
     #[Fillable]
-    public string $barang;
+    public string $gambar;
 }
