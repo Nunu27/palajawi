@@ -31,8 +31,6 @@ window.formSubmit = async (e) => {
                 Accept: "application/json",
             },
             data: new FormData(form),
-            timeout: 10000,
-            timeoutErrorMessage: "Request timeout",
         });
 
         if (response.success && response.redirect) {

@@ -45,12 +45,12 @@ class AuthenticatedController extends Controller
         return view('cart');
     }
 
-    public function transaksi()
+    public function transactionList()
     {
         return view('transaction-list');
     }
 
-    public function detailTransaksi()
+    public function transactionDetail()
     {
         return view('transaction');
     }
