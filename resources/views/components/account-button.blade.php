@@ -25,8 +25,13 @@
                     </li>
                 @else
                     <li>
-                        <a href="#" class="block rounded px-2 py-1 transition hover:bg-gray-100">
+                        <a href="{{ route('transaction') }}" class="block rounded px-2 py-1 transition hover:bg-gray-100">
                             Histori Transaksi
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ ('profile') }}" class="block rounded px-2 py-1 transition hover:bg-gray-100">
+                            Edit profile
                         </a>
                     </li>
                 @endif
