@@ -13,5 +13,8 @@
             type="button">
             Beli
         </button>
+        <x-button.a-primary href="{{ route('detail', 1) }}">
+            Detail
+        </x-button.a-primary>
     </div>
 </div>
