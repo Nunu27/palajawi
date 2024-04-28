@@ -284,7 +284,6 @@
                 </div>
                 <!-- nav - end -->
             </div>
-
             <div class="border-t py-8 text-center text-sm text-gray-400">© 2021 - Present Flowrift. All rights
                 reserved.</div>
         </footer>

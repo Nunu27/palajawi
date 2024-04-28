@@ -4,7 +4,7 @@
     $sideBarOpen = isset($_COOKIE['sideBarOpen']) ? $_COOKIE['sideBarOpen'] == 'true' : false;
 @endphp
 
-<x-root-layout title="{{ 'Dashboard' . (isset($title) ? ' - ' . $title : '') }}">
+<x-root-layout title="{{ (isset($title) ? ' - ' . $title : '') . 'Dashboard' }}">
     <div class="flex h-screen overflow-y-hidden bg-white" x-cloak x-data="{
         sideBarOpen: {{ $sideBarOpen ? 'true' : 'false' }},
         toggle() {

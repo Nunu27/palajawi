@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-guest-layout title="Daftar">
     <x-form method="POST" action="{{ route('register') }}">
         <!-- Name -->
         <div>

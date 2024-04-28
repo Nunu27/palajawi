@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Controllers\ParseNumberInput;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class BarangController extends Controller
 {
+    use ParseNumberInput;
     /**
      * Display a listing of the resource.
      */
@@ -17,8 +19,8 @@ class BarangController extends Controller
         $perPage = $request->input("per_page", 10);
         $query = $request->input("query");
         $route = 'barang';
-        $headers = ['ID', 'Cover', 'Nama', 'Harga'];
-        $columns = ['id', 'cover', 'nama', 'harga'];
+        $headers = ['ID', 'Cover', 'Nama', 'Harga', 'Stok'];
+        $columns = ['id', ['cover', 'image'], 'nama', ['harga', 'number', 'Rp. '], ['stok', 'number']];
         $actions = ['view', 'edit', 'delete'];
         $data = Barang::orderBy('id');
         if ($query)
@@ -45,9 +47,25 @@ class BarangController extends Controller
             'cover' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // TODO: upload cover to S3
-        Barang::castAndCreate($request->all());
-        return to_route('barang.index')->with('success', '');
+        $path = Storage::disk('s3')->put('images', $request->cover, Barang::getNextSequenceValue());
+        if (!$path) {
+            return [
+                'success' => false,
+                'message' => 'Gagal mengunggah gambar'
+            ];
+        }
+
+        $barang = $request->all();
+        $barang['harga'] = $this->parseNumberInput($barang['harga']);
+        $barang['stok'] = $this->parseNumberInput($barang['stok']);
+        $barang['cover'] = $path;
+        $barang['id_kategori'] = 1;
+
+        return [
+            'success' => true,
+            'message' => 'Barang berhasil ditambahkan',
+            'redirect' => route('barang.index')
+        ];
     }
 
     /**

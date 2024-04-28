@@ -17,7 +17,7 @@ use WendellAdriel\Lift\Lift;
 #[HasOne(Kategori::class, 'id_kategori')]
 class Barang extends Model
 {
-    use Lift;
+    use Lift, GetNextSequenceValue;
 
     #[PrimaryKey]
     public int $id;

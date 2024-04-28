@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('cover');
             $table->string('nama');
-            $table->string('id_kategori');
+            $table->bigInteger('id_kategori');
             $table->index('id_kategori');
             $table->foreign('id_kategori')->references('id')->on('kategori')->onDelete('cascade');
             $table->string('deskripsi');
