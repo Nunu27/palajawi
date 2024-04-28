@@ -18,13 +18,8 @@
 
 <div class="flex h-9 items-center justify-between">
     <div class="flex w-0 items-center gap-2 overflow-hidden text-sm text-gray-700 lg:w-max">
-        <select name="per_page" id="perPage" class="rounded-md px-2 py-1 pr-6 text-xs"
-            @change="
-            const url = new URL(window.location.href);
-            url.searchParams.set('per_page', $event.srcElement.value);
-            url.searchParams.delete('page');
-            window.location=url.href;
-        ">
+        <select wire:model='perPage' wire:change='refresh' name="per_page" id="perPage"
+            class="rounded-md px-2 py-1 pr-6 text-xs">
             @foreach ($perPageList as $perPageCount)
                 <option value="{{ $perPageCount }}" @selected($perPageCount == $perPage)>{{ $perPageCount }}</option>
             @endforeach
@@ -114,22 +109,28 @@ window.addEventListener('resize', function(event) { contextMenuOpen = false; });
         <div x-show="contextMenuOpen" @click.away="contextMenuOpen=false" x-ref="contextmenu"
             class="text-md fixed z-50 w-64 min-w-[8rem] rounded-md border border-neutral-200/70 bg-white p-1 text-neutral-800 shadow-md"
             x-cloak>
-            <div @click="contextMenuOpen=false"
-                class="group relative flex cursor-default select-none items-center rounded px-2 py-1.5 pl-8 outline-none hover:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                @svg('gmdi-remove-red-eye-o', 'absolute left-2 h-4')
-                <span>Lihat</span>
-            </div>
-            <div @click="contextMenuOpen=false"
-                class="group relative flex cursor-default select-none items-center rounded px-2 py-1.5 pl-8 outline-none hover:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                @svg('gmdi-edit', 'absolute left-2 h-4')
-                <span>Edit</span>
-            </div>
-            <div class="-mx-1 my-1 h-px bg-neutral-200"></div>
-            <div @click="contextMenuOpen=false"
-                class="group relative flex cursor-default select-none items-center rounded px-2 py-1.5 pl-8 text-red-600 outline-none hover:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                @svg('gmdi-delete-o', 'absolute left-2 h-4')
-                <span>Hapus</span>
-            </div>
+            @if ($canView)
+                <div @click="contextMenuOpen=false"
+                    class="group relative flex cursor-default select-none items-center rounded px-2 py-1.5 pl-8 outline-none hover:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                    @svg('gmdi-remove-red-eye-o', 'absolute left-2 h-4')
+                    <span>Lihat</span>
+                </div>
+            @endif
+            @if ($canEdit)
+                <div @click="contextMenuOpen=false"
+                    class="group relative flex cursor-default select-none items-center rounded px-2 py-1.5 pl-8 outline-none hover:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                    @svg('gmdi-edit', 'absolute left-2 h-4')
+                    <span>Edit</span>
+                </div>
+            @endif
+            @if ($canDelete)
+                <div class="-mx-1 my-1 h-px bg-neutral-200"></div>
+                <div @click="contextMenuOpen=false"
+                    class="group relative flex cursor-default select-none items-center rounded px-2 py-1.5 pl-8 text-red-600 outline-none hover:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                    @svg('gmdi-delete-o', 'absolute left-2 h-4')
+                    <span>Hapus</span>
+                </div>
+            @endif
         </div>
     </template>
 </div>
