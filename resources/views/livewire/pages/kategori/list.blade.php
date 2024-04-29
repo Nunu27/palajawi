@@ -1,18 +1,18 @@
 <?php
 
-use App\Models\User;
+use App\Models\Kategori;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
 
-new #[Layout('layouts.dashboard')] #[Title('Daftar Pengguna')] class extends Component {
+new #[Layout('layouts.dashboard')] #[Title('Daftar Kategori')] class extends Component {
     use WithPagination;
 
     public $id;
 
-    public $columns = ['id', 'email', 'username', 'admin'];
+    public $columns = ['id', 'gambar', 'nama'];
     #[Url(as: 'per_page')]
     public int $perPage = 10;
     #[Url(except: '')]
@@ -25,9 +25,9 @@ new #[Layout('layouts.dashboard')] #[Title('Daftar Pengguna')] class extends Com
 
     public function with(): array
     {
-        $data = User::orderBy('id');
+        $data = Kategori::orderBy('id');
         if ($this->query) {
-            $data->whereFullText(['email', 'username'], $this->query);
+            $data->whereFullText(['nama'], $this->query);
         }
         $list = $data->paginate($this->perPage, $this->columns);
 
@@ -36,12 +36,17 @@ new #[Layout('layouts.dashboard')] #[Title('Daftar Pengguna')] class extends Com
 
     public function view()
     {
-        $this->redirect(route('user.show', $this->id), navigate: true);
+        $this->redirect(route('barang.show', $this->id), navigate: true);
+    }
+
+    public function edit()
+    {
+        $this->redirect(route('barang.edit', $this->id), navigate: true);
     }
 }; ?>
 
 <div>
-    <x-table route="user" :data="$list" :columns="array_slice($columns, 1)" :headers="['Email', 'Nama', 'Admin']" :actions="['view']">
+    <x-table :data="$list" :columns="[['gambar', 'image'], 'nama']" :headers="['Gambar', 'Nama']" :actions="['view', 'edit', 'delete']">
         <x-compact-search-bar />
     </x-table>
 </div>

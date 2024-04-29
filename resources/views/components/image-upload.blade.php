@@ -1,4 +1,4 @@
-@props(['name', 'data', 'alt', 'placeholder', 'required'])
+@props(['name', 'data' => null, 'alt', 'placeholder', 'required'])
 
 <div {{ $attributes->merge(['class' => 'relative']) }}>
     <input type="file" wire:model="{{ $name }}" accept="image/*" @required($required ?? false)

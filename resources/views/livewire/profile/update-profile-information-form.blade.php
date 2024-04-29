@@ -9,7 +9,6 @@ use Masmerise\Toaster\Toastable;
 new class extends Component {
     use WithFileUploads, Toastable;
 
-    #[Validate('image|max:1024')]
     public $foto;
     public ?string $foto_profil;
     public string $email = '';
@@ -32,6 +31,10 @@ new class extends Component {
      */
     public function updateProfileInformation(): void
     {
+        $this->validate([
+            'foto' => ['image,max:1024'],
+        ]);
+
         $user = Auth::user();
 
         if ($this->foto) {
@@ -63,7 +66,7 @@ new class extends Component {
     <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
         <div class="flex flex-col items-center gap-6 lg:flex-row lg:items-start">
             <x-image-upload name='foto' :data="$foto" alt='Foto profil' :placeholder="$foto_profil"
-                class="aspect-square w-full max-w-xs overflow-hidden rounded-full bg-gray-200" />
+                class="max-w-56 aspect-square w-full overflow-hidden rounded-full border border-gray-300 bg-gray-200" />
             <div class="w-full flex-1">
                 <div>
                     <x-input-label for="email" :value="__('Email')" />

@@ -52,6 +52,9 @@
                     <x-nav-link.dashboard route='barang' icon='gmdi-list-alt' iconActive='gmdi-list-alt-tt'>
                         Barang
                     </x-nav-link.dashboard>
+                    <x-nav-link.dashboard route='kategori' icon='gmdi-category-o' iconActive='gmdi-category'>
+                        Kategori
+                    </x-nav-link.dashboard>
                     <x-nav-link.dashboard route='transaksi' icon='gmdi-receipt-long-o'
                         iconActive='gmdi-receipt-long-tt'>
                         Transaksi

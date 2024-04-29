@@ -15,6 +15,6 @@ trait GetNextSequenceValue
 
         $sequenceName = "{$self->getTable()}_id_seq";
 
-        return DB::selectOne("SELECT nextval('{$sequenceName}') AS val")->val;
+        return DB::selectOne("SELECT last_value + 1 AS val FROM $sequenceName")->val;
     }
 }
