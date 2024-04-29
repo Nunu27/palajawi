@@ -48,12 +48,6 @@ class BarangController extends Controller
         ]);
 
         $path = Storage::disk('s3')->put('images', $request->cover, Barang::getNextSequenceValue());
-        if (!$path) {
-            return [
-                'success' => false,
-                'message' => 'Gagal mengunggah gambar'
-            ];
-        }
 
         $barang = $request->all();
         $barang['harga'] = $this->parseNumberInput($barang['harga']);
@@ -61,11 +55,7 @@ class BarangController extends Controller
         $barang['cover'] = $path;
         $barang['id_kategori'] = 1;
 
-        return [
-            'success' => true,
-            'message' => 'Barang berhasil ditambahkan',
-            'redirect' => route('barang.index')
-        ];
+        return to_route('barang.index');
     }
 
     /**

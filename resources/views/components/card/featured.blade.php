@@ -1,5 +1,5 @@
-<div class="border border-emerald-500 rounded-lg">
-    <a href="#" class="group relative block h-45 overflow-hidden rounded-t-md">
+<div class="rounded-lg border border-emerald-500">
+    <a href="#" class="h-45 group relative block overflow-hidden rounded-t-md">
         <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&q=75&fit=crop&crop=top&w=600&h=700"
             loading="lazy" alt="Photo by Austin Wade"
             class="h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
@@ -22,9 +22,9 @@
             <div class="flex flex-col">
                 <span class="font-bold text-gray-600 lg:text-lg">$19.99</span>
             </div>
-            <div class="flex flex-row ">
+            <div class="flex flex-row">
                 <x-button.a-secondary class="mr-3"
-                    href="{{ route('transaction.detail', 1) }}">Buy</x-button.a-secondary>
+                    href="{{ route('user.transaction.detail', 1) }}">Buy</x-button.a-secondary>
                 <x-button.a-secondary href="{{ route('cart') }}">Cart</x-button.a-secondary>
             </div>
         </div>

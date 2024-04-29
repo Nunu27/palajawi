@@ -16,11 +16,13 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @livewireStyles
     </head>
 
     <body class="font-sans antialiased">
         {{ $slot }}
-        <x-toast-manager />
+        <x-toaster-hub />
+        @livewireScripts
     </body>
 
 </html>
