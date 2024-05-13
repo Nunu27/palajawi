@@ -20,8 +20,11 @@ Route::prefix('dashboard')->middleware(['auth', 'admin'])->group(function () {
     // Route::resource('barang', BarangController::class);
 
     // Kategori
-    Volt::route('kategori', 'pages.kategori.list')
-        ->name('kategori.index');
+    Volt::route('kategori', 'pages.kategori.list')->name('kategori.index');
+    Volt::route('kategori/tambah', 'pages.kategori.add')->name('kategori.create');
+    Volt::route('kategori/{id}', 'pages.kategori.view')->name('kategori.show');
+    Volt::route('kategori/{id}/edit', 'pages.kategori.edit')->name('kategori.edit');
+
 
     // User
     Volt::route('pengguna', 'pages.user.list')
