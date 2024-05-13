@@ -37,11 +37,12 @@ new #[Layout('layouts.dashboard')] #[Title('Edit Kategori')] class extends Compo
         ]);
 
         if ($this->gambar) {
-            $this->gambar->storePubliclyAs('gambar_kategori', $this->id, 's3');
+            $path = 'https://palajawi.s3.ap-southeast-1.amazonaws.com/' . $this->gambar->storePubliclyAs('gambar_kategori', $this->id, 's3');
         }
 
         Kategori::find($this->id)->castAndUpdate([
             'nama' => $this->nama,
+            'gambar' => $this->gambar == null || $this->oldGambar == $path ? $this->oldGambar : $path,
         ]);
 
         $this->redirectRoute('kategori.show', ['id' => $this->id]);

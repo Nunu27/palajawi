@@ -11,6 +11,7 @@ use Livewire\Volt\Component;
 use Masmerise\Toaster\Toastable;
 
 new #[Layout('layouts.dashboard')] #[Title('Detail Barang')] class extends Component {
+    use Toastable;
     public $id;
 
     public function mount()
@@ -23,6 +24,13 @@ new #[Layout('layouts.dashboard')] #[Title('Detail Barang')] class extends Compo
         return [
             'barang' => Barang::find($this->id),
         ];
+    }
+
+    public function delete()
+    {
+        Barang::find($this->id)->delete();
+        $this->redirect(route('barang.index'));
+        $this->success('Barang berhasil dihapus');
     }
 }; ?>
 
@@ -64,7 +72,7 @@ new #[Layout('layouts.dashboard')] #[Title('Detail Barang')] class extends Compo
         </div>
     </div>
     <div class="flex justify-end gap-2">
-        <x-button.danger>Hapus</x-button.danger>
+        <x-button.danger wire:click='delete'>Hapus</x-button.danger>
         <x-button.a-primary href="{{ route('barang.edit', $id) }}">Edit</x-button.a-primary>
     </div>
 </div>
