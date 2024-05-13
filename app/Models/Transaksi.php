@@ -9,23 +9,25 @@ use WendellAdriel\Lift\Attributes\Config;
 use WendellAdriel\Lift\Attributes\DB;
 use WendellAdriel\Lift\Attributes\Fillable;
 use WendellAdriel\Lift\Attributes\PrimaryKey;
+use WendellAdriel\Lift\Attributes\Relations\HasOne;
 use WendellAdriel\Lift\Lift;
 
-enum MetodePembayaran
+enum MetodePembayaran: string
 {
-    case COD;
-    case PRIS;
+    case COD = 'COD';
+    case PRIS = 'PRIS';
 }
-enum StatusTransaksi
+enum StatusTransaksi: string
 {
-    case MenungguPembayaran;
-    case Diproses;
-    case Selesai;
-    case Gagal;
-    case Dibatalkan;
+    case MenungguPembayaran = 'Menunggu Pembayaran';
+    case Diproses = 'Diproses';
+    case Selesai = 'Selesai';
+    case Gagal = 'Gagal';
+    case Dibatalkan = 'Dibatalkan';
 }
 
 #[DB(table: 'transaksi')]
+#[HasOne(User::class, 'user', 'id', 'id_user')]
 class Transaksi extends Model
 {
     use Lift;
