@@ -27,7 +27,7 @@ new #[Layout('layouts.dashboard')] #[Title('Daftar Pengguna')] class extends Com
     {
         $data = User::orderBy('id');
         if ($this->query) {
-            $data->whereFullText(['email', 'username'], $this->query);
+            $data->where('username', 'ILIKE', '%' . trim($this->query) . '%');
         }
         $list = $data->paginate($this->perPage, $this->columns);
 

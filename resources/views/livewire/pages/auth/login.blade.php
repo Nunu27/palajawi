@@ -5,8 +5,11 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
+use Masmerise\Toaster\Toastable;
 
 new #[Layout('layouts.guest')] #[Title('Masuk')] class extends Component {
+    use Toastable;
+
     public LoginForm $form;
 
     /**
@@ -20,15 +23,12 @@ new #[Layout('layouts.guest')] #[Title('Masuk')] class extends Component {
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
         $this->success('Berhasil masuk');
+        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
 }; ?>
 
 <div>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
     <form wire:submit="login">
         <!-- Email Address -->
         <div>

@@ -51,7 +51,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        return view('dashboard.user.detail', ['user', User::find($id)]);
+        return view('dashboard.user.detail', ['user' => User::find($id)]);
     }
 
     /**
