@@ -16,4 +16,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/transaksi', [AuthenticatedController::class, 'transactionList'])->name('user.transactions');
     Route::get('/transaksi/{id}', [AuthenticatedController::class, 'transactionDetail'])->name('user.transaction.detail');
     Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
+    Route::get('/detailpesanan/{id}', [AuthenticatedController::class, 'detailpesanan'])->name('detailpesanan');
+
 });
