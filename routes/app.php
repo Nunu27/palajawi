@@ -21,4 +21,6 @@ Route::middleware('auth')->group(function () {
     Route::get('change-password', [AuthenticatedController::class, 'editPassword'])->name('password.edit');
     Route::put('password', [AuthenticatedController::class, 'updatePassword'])->name('password.update');
     Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
+    Route::get('/detailpesanan/{id}', [AuthenticatedController::class, 'detailpesanan'])->name('detailpesanan');
+
 });
