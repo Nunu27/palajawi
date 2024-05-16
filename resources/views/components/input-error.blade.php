@@ -1,7 +1,9 @@
-@props(['name'])
+@props(['messages'])
 
-<ul x-show="errors?.[@js($name)]" {{ $attributes->merge(['class' => 'text-sm text-red-600  space-y-1']) }}>
-    <template x-for="error in errors?.[@js($name)]">
-        <li x-text="error"></li>
-    </template>
-</ul>
+@if ($messages)
+    <ul {{ $attributes->merge(['class' => 'text-sm text-red-600 space-y-1']) }}>
+        @foreach ((array) $messages as $message)
+            <li>{{ $message }}</li>
+        @endforeach
+    </ul>
+@endif

@@ -13,7 +13,7 @@ use WendellAdriel\Lift\Lift;
 #[DB(table: 'kategori', timestamps: false)]
 class Kategori extends Model
 {
-    use Lift;
+    use Lift, GetNextSequenceValue;
 
     #[PrimaryKey]
     #[Fillable]

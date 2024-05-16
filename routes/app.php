@@ -13,13 +13,8 @@ Route::get('/detail/{id}', [PublicController::class, 'detail'])->name('detail');
 Route::middleware('auth')->group(function () {
     Route::get('/keranjang', [AuthenticatedController::class, 'cart'])->name('cart');
     Route::get('/profil', [AuthenticatedController::class, 'profile'])->name('profile');
-    Route::post('/profil', [AuthenticatedController::class, 'profile']);
-    Route::get('/profil/edit', [AuthenticatedController::class, 'profile'])->name('profile');
-    Route::get('/transaksi', [AuthenticatedController::class, 'transactions'])->name('transaction');
-    Route::get('/transaksi/{id}', [AuthenticatedController::class, 'transaction'])->name('transaction.detail');
-
-    Route::get('change-password', [AuthenticatedController::class, 'editPassword'])->name('password.edit');
-    Route::put('password', [AuthenticatedController::class, 'updatePassword'])->name('password.update');
+    Route::get('/transaksi', [AuthenticatedController::class, 'transactionList'])->name('user.transactions');
+    Route::get('/transaksi/{id}', [AuthenticatedController::class, 'transactionDetail'])->name('user.transaction.detail');
     Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
     Route::get('/detailpesanan/{id}', [AuthenticatedController::class, 'detailpesanan'])->name('detailpesanan');
 

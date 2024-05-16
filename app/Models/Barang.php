@@ -14,7 +14,7 @@ use WendellAdriel\Lift\Lift;
 // TODO: finish up the rule
 
 #[DB(table: 'barang')]
-#[HasOne(Kategori::class, 'id_kategori')]
+#[HasOne(Kategori::class, 'kategori', 'id', 'id_kategori')]
 class Barang extends Model
 {
     use Lift, GetNextSequenceValue;
@@ -25,7 +25,7 @@ class Barang extends Model
     public string $cover;
     #[Config(fillable: true, rules: ['required', 'string', 'max:255'])]
     public string $nama;
-    #[Config(fillable: true, rules: ['required', 'int'])]
+    #[Config(fillable: true, rules: ['required', 'int'], cast: 'integer')]
     public int $id_kategori;
     #[Config(fillable: true, rules: ['required', 'string', 'max:4095'])]
     public string $deskripsi;

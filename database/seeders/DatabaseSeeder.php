@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Kategori;
+use App\Models\MetodePembayaran;
+use App\Models\StatusTransaksi;
+use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -35,6 +38,14 @@ class DatabaseSeeder extends Seeder
         Kategori::castAndCreate([
             'nama' => 'Minuman',
             'gambar' => 'https://sikepoku.kulonprogokab.go.id/assets/image/1704160536_ec562eb5f39e8a7275dd.png'
+        ]);
+
+        Transaksi::castAndCreate([
+            'id' => uuid_create(),
+            'id_user' => 1,
+            'total_harga' => 50000,
+            'metode_pembayaran' => MetodePembayaran::PRIS,
+            'status' => StatusTransaksi::MenungguPembayaran,
         ]);
     }
 }

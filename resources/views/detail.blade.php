@@ -122,10 +122,14 @@
                 class="ring-offset-background flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm placeholder:text-neutral-500 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
         </div>
     </div>
+<<<<<<< HEAD
     
 
 
 
+=======
+</div>
+>>>>>>> 47fb811d2305e125be5f25c195da15d358dbf2c5
 </x-app-layout>
 
 

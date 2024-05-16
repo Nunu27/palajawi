@@ -2,7 +2,7 @@
 
 @php
     $perPageList = [10, 25, 50, 100];
-    if (isset($actions) && isset($route)) {
+    if (isset($actions)) {
         $canView = in_array('view', $actions);
         $canEdit = in_array('edit', $actions);
         $canDelete = in_array('delete', $actions);
@@ -18,15 +18,10 @@
 
 <div class="flex h-9 items-center justify-between">
     <div class="flex w-0 items-center gap-2 overflow-hidden text-sm text-gray-700 lg:w-max">
-        <select name="per_page" id="perPage" class="rounded-md px-2 py-1 pr-6 text-xs"
-            @change="
-            const url = new URL(window.location.href);
-            url.searchParams.set('per_page', $event.srcElement.value);
-            url.searchParams.delete('page');
-            window.location=url.href;
-        ">
+        <select wire:model='perPage' wire:change='refresh' name="per_page" id="perPage"
+            class="rounded-md px-2 py-1 pr-6 text-xs">
             @foreach ($perPageList as $perPageCount)
-                <option value="{{ $perPageCount }}" @selected($perPageCount == $perPage)>{{ $perPageCount }}</option>
+                <option value="{{ $perPageCount }}">{{ $perPageCount }}</option>
             @endforeach
         </select>
         Per halaman
@@ -36,9 +31,11 @@
     @endisset
 </div>
 <div class="my-5 w-full overflow-x-auto rounded-lg border" x-data="{
+    id: @entangle('id'),
     contextMenuOpen: false,
-    contextMenuToggle: function(event) {
+    contextMenuToggle: function(event, id) {
         this.contextMenuOpen = true;
+        this.id = id;
         event.preventDefault();
         this.$refs.contextmenu.classList.add('opacity-0');
         let that = this;
@@ -93,46 +90,74 @@ window.addEventListener('resize', function(event) { contextMenuOpen = false; });
         </thead>
         <tbody class="bg-white">
             @forelse ($data?->items() ?? [] as $item)
-                <tr @if (isset($actions) && count($actions)) @contextmenu="contextMenuToggle(event)" @endif
-                    @if ($canView) onclick="window.location='{{ route($route . '.show', $item->id) }}'" class="hover:bg-gray-100 cursor-pointer" @else class="hover:bg-gray-100" @endif>
+                <tr @if ($canView && isset($route)) href="{{ route($route . '.show', $item->id) }}" wire:navigate @endif
+                    @if (isset($actions) && count($actions)) @contextmenu="contextMenuToggle(event, '{{ $item->id }}')" @endif
+                    @if ($canView) class="hover:bg-gray-100 cursor-pointer" @else class="hover:bg-gray-100" @endif>
                     @foreach ($columns as $column)
                         <td class="truncate border-t border-gray-200 px-6 py-4">
-                            {{ is_bool($item[$column]) ? ($item[$column] ? 'Iya' : 'Tidak') : $item[$column] }}</td>
+                            @if (is_array($column))
+                                @switch($column[1])
+                                    @case('image')
+                                        <img src="{{ $item[$column[0]] }}" alt="Gambar"
+                                            class="aspect-square w-32 rounded-md border border-gray-300 bg-gray-200 object-cover">
+                                    @break
+
+                                    @case('number')
+                                        {{ ($column[2] ?? '') . number_format($item[$column[0]], 0, ',', '.') }}
+                                    @break
+
+                                    @case('relation')
+                                        {{ $item[$column[0]][$column[2]] }}
+                                    @break
+
+                                    @default
+                                        {{ $item[$column[0]] }}
+                                @endswitch
+                            @else
+                                {{ is_bool($item[$column]) ? ($item[$column] ? 'Iya' : 'Tidak') : $item[$column] }}
+                            @endif
+                        </td>
                     @endforeach
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="{{ count($headers) }}"
-                        class="h-[25svh] border-t border-gray-200 px-6 py-4 text-center">
-                        Belum ada data
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-    <template x-teleport="body">
-        <div x-show="contextMenuOpen" @click.away="contextMenuOpen=false" x-ref="contextmenu"
-            class="text-md fixed z-50 w-64 min-w-[8rem] rounded-md border border-neutral-200/70 bg-white p-1 text-neutral-800 shadow-md"
-            x-cloak>
-            <div @click="contextMenuOpen=false"
-                class="group relative flex cursor-default select-none items-center rounded px-2 py-1.5 pl-8 outline-none hover:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                @svg('gmdi-remove-red-eye-o', 'absolute left-2 h-4')
-                <span>Lihat</span>
+                @empty
+                    <tr>
+                        <td colspan="{{ count($headers) }}"
+                            class="h-[25svh] border-t border-gray-200 px-6 py-4 text-center">
+                            Belum ada data
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+        <template x-teleport="body">
+            <div x-show="contextMenuOpen" @click.away="contextMenuOpen=false" x-ref="contextmenu"
+                class="text-md fixed z-50 w-64 min-w-[8rem] rounded-md border border-neutral-200/70 bg-white p-1 text-neutral-800 shadow-md"
+                x-cloak>
+                @if ($canView)
+                    <div @click="contextMenuOpen=false" wire:click='view'
+                        class="group relative flex cursor-default select-none items-center rounded px-2 py-1.5 pl-8 outline-none hover:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                        @svg('gmdi-remove-red-eye-o', 'absolute left-2 h-4')
+                        <span>Lihat</span>
+                    </div>
+                @endif
+                @if ($canEdit)
+                    <div @click="contextMenuOpen=false" wire:click='edit'
+                        class="group relative flex cursor-default select-none items-center rounded px-2 py-1.5 pl-8 outline-none hover:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                        @svg('gmdi-edit', 'absolute left-2 h-4')
+                        <span>Edit</span>
+                    </div>
+                @endif
+                @if ($canDelete)
+                    <div class="-mx-1 my-1 h-px bg-neutral-200"></div>
+                    <div @click="contextMenuOpen=false; $dispatch('open-modal', 'delete');"
+                        class="group relative flex cursor-default select-none items-center rounded px-2 py-1.5 pl-8 text-red-600 outline-none hover:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                        @svg('gmdi-delete-o', 'absolute left-2 h-4')
+                        <span>Hapus</span>
+                    </div>
+                @endif
             </div>
-            <div @click="contextMenuOpen=false"
-                class="group relative flex cursor-default select-none items-center rounded px-2 py-1.5 pl-8 outline-none hover:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                @svg('gmdi-edit', 'absolute left-2 h-4')
-                <span>Edit</span>
-            </div>
-            <div class="-mx-1 my-1 h-px bg-neutral-200"></div>
-            <div @click="contextMenuOpen=false"
-                class="group relative flex cursor-default select-none items-center rounded px-2 py-1.5 pl-8 text-red-600 outline-none hover:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                @svg('gmdi-delete-o', 'absolute left-2 h-4')
-                <span>Hapus</span>
-            </div>
-        </div>
-    </template>
-</div>
-@isset($data)
-    {{ $data->links() }}
-@endisset
+        </template>
+    </div>
+    @isset($data)
+        {{ $data->links() }}
+    @endisset

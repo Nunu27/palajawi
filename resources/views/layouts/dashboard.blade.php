@@ -4,7 +4,7 @@
     $sideBarOpen = isset($_COOKIE['sideBarOpen']) ? $_COOKIE['sideBarOpen'] == 'true' : false;
 @endphp
 
-<x-root-layout title="{{ (isset($title) ? ' - ' . $title : '') . 'Dashboard' }}">
+<x-root-layout title="{{ (isset($title) ? $title . ' - ' : '') . 'Dashboard' }}">
     <div class="flex h-screen overflow-y-hidden bg-white" x-cloak x-data="{
         sideBarOpen: {{ $sideBarOpen ? 'true' : 'false' }},
         toggle() {
@@ -52,6 +52,9 @@
                     <x-nav-link.dashboard route='barang' icon='gmdi-list-alt' iconActive='gmdi-list-alt-tt'>
                         Barang
                     </x-nav-link.dashboard>
+                    <x-nav-link.dashboard route='kategori' icon='gmdi-category-o' iconActive='gmdi-category'>
+                        Kategori
+                    </x-nav-link.dashboard>
                     <x-nav-link.dashboard route='transaksi' icon='gmdi-receipt-long-o'
                         iconActive='gmdi-receipt-long-tt'>
                         Transaksi
@@ -67,7 +70,7 @@
                 <a href="{{ route('logout') }}"
                     class="flex w-full items-center justify-center space-x-1 rounded-md border bg-gray-100 px-4 py-2 font-medium tracking-wider focus:outline-none focus:ring">
                     <x-gmdi-logout-r class="h-5" />
-                    <span :class="{ 'hidden': !sideBarOpen }"> Logout </span>
+                    <span :class="{ 'hidden': !sideBarOpen }"> Keluar </span>
                 </a>
             </div>
         </aside>
@@ -91,10 +94,10 @@
                     </div>
 
                     <!-- avatar button -->
-                    <x-account-button />
+                    <x-auth-button />
             </header>
             <!-- Main content -->
-            <main class="max-h-full flex-1 overflow-hidden overflow-y-auto bg-gray-100 p-5">
+            <main class="max-h-full flex-1 overflow-hidden overflow-y-auto bg-gray-100 p-2 lg:p-5">
                 {{ $slot }}
             </main>
             <!-- Main footer -->
