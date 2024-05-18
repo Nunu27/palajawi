@@ -17,13 +17,13 @@
             <div class="py-4 font-semibold">Detail Pesanan</div>
             <div class=" py-4 border-y border-gray-400">
                 <div class="flex">
-                    <div class="w-full">
+                    <div class="w-4/6">
                         <div class="">Jumlah barang</div>
                         <div class="">Harga Produk</div>
                         <div class="">Pengiriman</div>
                         <div class="">Metode Pembayaran</div>
                     </div>
-                    <div class="w-full">
+                    <div class="w-2/6">
                         <div class="">1</div>
                         <div class="">55.000</div>
                         <div class="">Kargo</div>
@@ -38,11 +38,11 @@
                 <div class="container my-4">
                     <div class="font-medium">Total Belanja</div>
                     <div class="flex">
-                        <div class="conatiner w-1/2">
+                        <div class="conatiner w-4/6">
                             <div class="font-light text-gray-400">Total Barang</div>
                             <div class="font-light text-gray-400">Ongkos Kirim</div>
                         </div>
-                        <div class="container w-1/2">
+                        <div class="container w-2/6">
                             <div class="font-light text-gray-400">Rp 55.000</div>
                             <div class="font-light text-gray-400">Rp 10.000</div>
                         </div>
@@ -53,11 +53,11 @@
                 <div class="container my-4">
                     <div class="font-medium">Biaya Transaksi</div>
                     <div class="flex">
-                        <div class="conatiner w-1/2">
+                        <div class="conatiner w-4/6">
                             <div class="font-light text-gray-400">Biaya Layanan</div>
                             <div class="font-light text-gray-400">Biya Aplikasi</div>
                         </div>
-                        <div class="container w-1/2 ">
+                        <div class="container w-2/6 ">
                             <div class="font-light text-gray-400">Rp 3.000</div>
                             <div class="font-light text-gray-400">Rp 1.000</div>
                         </div>
@@ -65,10 +65,10 @@
                 </div>
             </div>
             <div class="flex">
-                <div class="container w-1/2">
+                <div class="container w-4/6">
                     <div class="font-semibold text-xl mt-4">Total Tagihan</div>
                 </div>
-                <div class="container w-1/2">
+                <div class="container w-2/6">
                     <div class="font-semibold text-xl mt-4">Rp 69.000</div>
                 </div>
             </div>
