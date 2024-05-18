@@ -90,7 +90,8 @@ window.addEventListener('resize', function(event) { contextMenuOpen = false; });
         </thead>
         <tbody class="bg-white">
             @forelse ($data?->items() ?? [] as $item)
-                <tr @if (isset($actions) && count($actions)) @contextmenu="contextMenuToggle(event, '{{ $item->id }}')" @endif
+                <tr @if ($canView && isset($route)) href="{{ route($route . '.show', $item->id) }}" wire:navigate @endif
+                    @if (isset($actions) && count($actions)) @contextmenu="contextMenuToggle(event, '{{ $item->id }}')" @endif
                     @if ($canView) class="hover:bg-gray-100 cursor-pointer" @else class="hover:bg-gray-100" @endif>
                     @foreach ($columns as $column)
                         <td class="truncate border-t border-gray-200 px-6 py-4">

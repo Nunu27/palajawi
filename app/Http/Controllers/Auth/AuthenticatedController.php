@@ -19,6 +19,11 @@ class AuthenticatedController extends Controller
     {
         return view("profile.edit");
     }
+    public function detailpesanan(Request $request)
+    {
+        return view("detailpesanan");
+    }
+    
     public function update(Request $request)
     {
         $request->user()->castAndFill($request->all());

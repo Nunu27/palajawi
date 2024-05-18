@@ -20,8 +20,11 @@ Route::prefix('dashboard')->middleware(['auth', 'admin'])->group(function () {
     // Route::resource('barang', BarangController::class);
 
     // Kategori
-    Volt::route('kategori', 'pages.kategori.list')
-        ->name('kategori.index');
+    Volt::route('kategori', 'pages.kategori.list')->name('kategori.index');
+    Volt::route('kategori/tambah', 'pages.kategori.add')->name('kategori.create');
+    Volt::route('kategori/{id}', 'pages.kategori.view')->name('kategori.show');
+    Volt::route('kategori/{id}/edit', 'pages.kategori.edit')->name('kategori.edit');
+
 
     // User
     Volt::route('pengguna', 'pages.user.list')
@@ -30,5 +33,10 @@ Route::prefix('dashboard')->middleware(['auth', 'admin'])->group(function () {
         ->name('user.create');
     Route::get('pengguna/{id}', [UserController::class, 'show'])->name('user.show');
     // Route::resource('user', UserController::class);
-    Route::resource('transaksi', TransaksiController::class);
+
+    // Transaksi
+    Volt::route('transaksi', 'pages.transaksi.list')->name('transaksi.index');
+    Volt::route('transaksi/tambah', 'pages.transaksi.add')->name('transaksi.create');
+    Volt::route('transaksi/{id}', 'pages.transaksi.view')->name('transaksi.show');
+    // Route::resource('transaksi', TransaksiController::class);
 });

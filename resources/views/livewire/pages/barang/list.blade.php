@@ -32,7 +32,7 @@ new #[Layout('layouts.dashboard')] #[Title('Daftar Barang')] class extends Compo
             $data->where('id_kategori', $this->kategori);
         }
         if ($this->query) {
-            $data->whereFullText(['nama', 'deskripsi'], $this->query);
+            $data->where('nama', 'ILIKE', '%' . trim($this->query) . '%');
         }
         $list = $data->with('kategori')->paginate($this->perPage, ['id', 'cover', 'nama', 'id_kategori', 'harga', 'stok']);
 

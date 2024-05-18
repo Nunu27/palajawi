@@ -1,5 +1,4 @@
 <x-app-layout title="Detail Transaksi">
-    {{-- TODO: Detail transaksi UI --}}
     <div class="heading font-semibold text-2xl mb-4">Checkout Belanja</div>
     <div class="flex">
         <div class="container w-1/2 h-auto mr-4 p-4 bg-white shadow-md rounded-lg">
@@ -73,7 +72,6 @@
                 </div>
             </div>
             <button class="w-full border rounded-lg py-2 mt-8 bg-green-400">Bayar</button>
-
         </div>
     </div>
 </x-app-layout>

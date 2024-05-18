@@ -32,7 +32,7 @@ new class extends Component {
     public function updateProfileInformation(): void
     {
         $this->validate([
-            'foto' => ['image,max:1024'],
+            'foto' => ['nullable', 'image', 'max:1024'],
         ]);
 
         $user = Auth::user();
@@ -43,7 +43,7 @@ new class extends Component {
 
         $user->castAndFill([
             'username' => $this->username,
-            'foto_profil' => $this->foto_profil,
+            'foto_profil' => $this->foto_profil ?? '',
             'alamat' => $this->alamat,
         ]);
         $user->save();

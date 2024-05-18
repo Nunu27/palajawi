@@ -6,9 +6,10 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
+use Masmerise\Toaster\Toastable;
 
 new #[Layout('layouts.dashboard')] #[Title('Daftar Kategori')] class extends Component {
-    use WithPagination;
+    use WithPagination, Toastable;
 
     public $id;
 
@@ -27,7 +28,7 @@ new #[Layout('layouts.dashboard')] #[Title('Daftar Kategori')] class extends Com
     {
         $data = Kategori::orderBy('id');
         if ($this->query) {
-            $data->whereFullText(['nama'], $this->query);
+            $data->where('nama', 'ILIKE', '%' . trim($this->query) . '%');
         }
         $list = $data->paginate($this->perPage, $this->columns);
 
@@ -36,17 +37,27 @@ new #[Layout('layouts.dashboard')] #[Title('Daftar Kategori')] class extends Com
 
     public function view()
     {
-        $this->redirect(route('barang.show', $this->id), navigate: true);
+        $this->redirect(route('kategori.show', $this->id), navigate: true);
     }
 
     public function edit()
     {
-        $this->redirect(route('barang.edit', $this->id), navigate: true);
+        $this->redirect(route('kategori.edit', $this->id), navigate: true);
+    }
+
+    public function delete()
+    {
+        Kategori::find($this->id)->delete();
+        $this->success('Kategori berhasil dihapus');
     }
 }; ?>
 
 <div>
-    <x-table :data="$list" :columns="[['gambar', 'image'], 'nama']" :headers="['Gambar', 'Nama']" :actions="['view', 'edit', 'delete']">
+    <x-table route='kategori' :data="$list" :columns="[['gambar', 'image'], 'nama']" :headers="['Gambar', 'Nama']" :actions="['view', 'edit', 'delete']">
         <x-compact-search-bar />
+        <x-button.a-primary href="{{ route('kategori.create') }}">Tambah</x-button.a-primary>
     </x-table>
+
+    <x-confirmation-modal name='delete' title="Hapus kategori" message='Apakah anda yakin untuk menghapus kategori ini?'
+        click='delete' />
 </div>

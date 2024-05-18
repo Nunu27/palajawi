@@ -9,6 +9,7 @@ use Masmerise\Toaster\Toastable;
 
 new #[Layout('layouts.guest')] #[Title('Masuk')] class extends Component {
     use Toastable;
+    
     public LoginForm $form;
 
     /**
@@ -22,13 +23,12 @@ new #[Layout('layouts.guest')] #[Title('Masuk')] class extends Component {
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
         $this->success('Berhasil masuk');
+        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
 }; ?>
 
 <div>
-
     <form wire:submit="login">
         <!-- Email Address -->
         <div>

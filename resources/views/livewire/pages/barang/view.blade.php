@@ -11,6 +11,7 @@ use Livewire\Volt\Component;
 use Masmerise\Toaster\Toastable;
 
 new #[Layout('layouts.dashboard')] #[Title('Detail Barang')] class extends Component {
+    use Toastable;
     public $id;
 
     public function mount()
@@ -24,13 +25,20 @@ new #[Layout('layouts.dashboard')] #[Title('Detail Barang')] class extends Compo
             'barang' => Barang::find($this->id),
         ];
     }
+
+    public function delete()
+    {
+        Barang::find($this->id)->delete();
+        $this->redirect(route('barang.index'));
+        $this->success('Barang berhasil dihapus');
+    }
 }; ?>
 
 <div>
     <x-button.a-secondary href="{{ route('barang.index') }}">Kembali</x-button.a-secondary>
     <div class="my-5 flex flex-col items-center gap-6 lg:flex-row lg:items-start">
         <x-image-upload name='cover' :placeholder="$barang->cover"
-            class="max-w-72 aspect-square w-full overflow-hidden rounded-md border border-gray-300" />
+            class="max-w-72 aspect-square w-full overflow-hidden rounded-md border border-gray-300" disabled />
         <div class="grid w-full flex-1 auto-rows-min gap-4 gap-y-2 sm:grid-cols-3">
             <div class="sm:col-span-3">
                 <x-input-label for="nama" value="Nama Barang" />
@@ -64,7 +72,7 @@ new #[Layout('layouts.dashboard')] #[Title('Detail Barang')] class extends Compo
         </div>
     </div>
     <div class="flex justify-end gap-2">
-        <x-button.danger>Hapus</x-button.danger>
+        <x-button.danger wire:click='delete'>Hapus</x-button.danger>
         <x-button.a-primary href="{{ route('barang.edit', $id) }}">Edit</x-button.a-primary>
     </div>
 </div>
