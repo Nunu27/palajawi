@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
+use Masmerise\Toaster\Toastable;
 
 new #[Layout('layouts.guest')] #[Title('Masuk')] class extends Component {
+    use Toastable;
     public LoginForm $form;
 
     /**
@@ -26,8 +28,6 @@ new #[Layout('layouts.guest')] #[Title('Masuk')] class extends Component {
 }; ?>
 
 <div>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form wire:submit="login">
         <!-- Email Address -->
