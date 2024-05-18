@@ -9,7 +9,7 @@ use Masmerise\Toaster\Toastable;
 
 new #[Layout('layouts.guest')] #[Title('Masuk')] class extends Component {
     use Toastable;
-
+    
     public LoginForm $form;
 
     /**
