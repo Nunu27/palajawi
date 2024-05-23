@@ -55,7 +55,12 @@ new #[Layout('layouts.dashboard')] #[Title('Edit Barang')] class extends Compone
             $this->cover->storePubliclyAs('cover_barang', $this->id, 's3');
         }
 
+        if ($this->cover) {
+            $path = 'https://palajawi.s3.ap-southeast-1.amazonaws.com/' . $this->cover->storePubliclyAs('cover_barang', $this->id, 's3');
+        }
+
         Barang::find($this->id)->castAndUpdate([
+            'cover' => $this->cover == null || $this->oldCover == $path ? $this->oldCover : $path,
             'nama' => $this->nama,
             'id_kategori' => $this->idKategori,
             'deskripsi' => $this->deskripsi,

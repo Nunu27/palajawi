@@ -24,7 +24,7 @@
             </div>
             <div class="flex flex-row">
                 <x-button.a-secondary class="mr-3"
-                    href="{{ route('user.transaction.detail', 1) }}">Buy</x-button.a-secondary>
+                    href="{{ route('user.transaction.show', 1) }}">Buy</x-button.a-secondary>
                 <x-button.a-secondary href="{{ route('cart') }}">Cart</x-button.a-secondary>
             </div>
         </div>

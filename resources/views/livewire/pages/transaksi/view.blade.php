@@ -1,13 +1,9 @@
 <?php
 
 use App\Models\Transaksi;
-use App\Http\Controllers\ParseNumberInput;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
-use Livewire\WithFileUploads;
-use Livewire\Volt\Validate;
 use Livewire\Volt\Component;
-use Masmerise\Toaster\Toastable;
 
 new #[Layout('layouts.dashboard')] #[Title('Detail Transaksi')] class extends Component {
     public $id;
@@ -34,7 +30,10 @@ new #[Layout('layouts.dashboard')] #[Title('Detail Transaksi')] class extends Co
         </div>
         <div>
             <x-input-label for="user" value="User" />
-            <x-text-input class="mt-1 block w-full" type="text" name="user" :value='$transaksi->user->username' disabled />
+            <a href="{{ route('user.show', $transaksi->id_user) }}" wire:navigate>
+                <x-text-input class="mt-1 block w-full cursor-pointer" type="text" name="user"
+                    :value='$transaksi->user->username' />
+            </a>
         </div>
         <div>
             <x-input-label for="metode_pembayaran" value="Metode Pembayaran" />
