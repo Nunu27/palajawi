@@ -2,20 +2,18 @@
 
 use App\Http\Controllers\Auth\AuthenticatedController;
 use App\Http\Controllers\Auth\AuthenticationController;
-use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
-Route::get('/', [PublicController::class, 'index'])->name('home');
-Route::get('/filter', [PublicController::class, 'filter'])->name('filter');
-Route::get('/kategori/{id}', [PublicController::class, 'category'])->name('category');
-Route::get('/detail/{id}', [PublicController::class, 'detail'])->name('detail');
+Volt::route('/', 'pages.home')->name('home');
+Volt::route('/filter', 'pages.filter')->name('filter');
+Volt::route('/detail/{id}', 'pages.detail')->name('detail');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/keranjang', [AuthenticatedController::class, 'cart'])->name('cart');
+    Volt::route('/keranjang', 'pages.cart')->name('cart');
     Route::get('/profil', [AuthenticatedController::class, 'profile'])->name('profile');
-    Route::get('/transaksi', [AuthenticatedController::class, 'transactionList'])->name('user.transactions');
-    Route::get('/transaksi/{id}', [AuthenticatedController::class, 'transactionDetail'])->name('user.transaction.detail');
-    Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
-    Route::get('/detailpesanan/{id}', [AuthenticatedController::class, 'detailpesanan'])->name('detailpesanan');
-
+    Volt::route('/transaksi', 'pages.transactions')->name('user.transactions');
+    Volt::route('/transaksi/{id}', 'pages.transaction')->name('user.transaction.show');
+    Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+    Volt::route('/konfirmasi', 'pages.confirmation')->name('confirmation');
 });

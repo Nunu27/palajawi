@@ -1,20 +1,12 @@
-@props(['nama'])
+@props(['id', 'cover', 'nama', 'namaKategori', 'harga', 'stok'])
 
-<div class="mt-6 w-56 overflow-hidden rounded-xl shadow-md">
-    <div class="p-6">
-        <h5
-            class="text-blue-gray-900 mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal antialiased">
-            {{ $nama }}
-        </h5>
+<a href="{{ route('detail', $id) }}" wire:navigate
+    class="overflow-hidden rounded-lg bg-white shadow-md shadow-[rgba(0,0,0,0.1)]">
+    <img class="aspect-square w-full bg-gray-200 object-cover" src="{{ $cover }}" alt="{{ $nama }}">
+    <div class="p-2">
+        <p class="line-clamp-2 text-lg">{{ $nama }}</p>
+        <p class="text-green-700">{{ $namaKategori }}</p>
+        <p class="font-semibold">Rp. {{ number_format($harga, 0, ',', '.') }}</p>
+        <p>Stok: {{ $stok }}</p>
     </div>
-    <div class="p-6 pt-0">
-        <button
-            class="select-none rounded-lg px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            type="button">
-            Beli
-        </button>
-        <x-button.a-primary href="{{ route('detail', 1) }}">
-            Detail
-        </x-button.a-primary>
-    </div>
-</div>
+</a>

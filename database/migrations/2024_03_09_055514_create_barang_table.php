@@ -23,8 +23,6 @@ return new class extends Migration {
             $table->integer('harga');
             $table->integer('stok');
             $table->timestamps();
-
-            $table->fullText(['nama', 'deskripsi']);
         });
     }
 

@@ -1,58 +1,119 @@
-<x-app-layout title="Detail">
-    <div
-        class="mx-auto max-w-full space-y-2 bg-white px-8 py-8 shadow-lg sm:flex sm:items-center sm:space-x-6 sm:space-y-0 sm:py-4">
-        <div class="text-left sm:text-left">
-            <div class="mb-2 flex gap-10">
-                <img class="float-left block h-80 w-80 rounded border"
-                    src="https://res.cloudinary.com/dk0z4ums3/image/upload/v1606056031/attached_image/manisnya-nutrisi-di-dalam-manfaat-ubi-jalar-0-alodokter.jpg"
-                    alt="ubi ungu" />
+<?php
+
+use App\Models\Barang;
+use App\Models\Keranjang;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Volt\Component;
+use Masmerise\Toaster\Toastable;
+
+new #[Layout('layouts.app')] #[Title('Detail')] class extends Component {
+    use Toastable;
+
+    public $id;
+    public $barang;
+    public $cart;
+    public $count = 1;
+
+    public function mount()
+    {
+        $this->id = Route::current()->parameter('id');
+        $this->barang = Barang::find($this->id);
+        $user = request()->user();
+        if (isset($user)) {
+            $this->cart = Keranjang::where('id_user', $user->id)
+                ->where('id_barang', $this->id)
+                ->first();
+        }
+        if ($this->cart) {
+            $this->count = $this->cart->jumlah;
+        }
+    }
+
+    public function increment()
+    {
+        if ($this->count < $this->barang->stok) {
+            $this->count++;
+        }
+    }
+
+    public function decrement()
+    {
+        if ($this->count > 1) {
+            $this->count--;
+        }
+    }
+
+    public function addToCart()
+    {
+        if (isset($this->cart)) {
+            $this->cart->castAndUpdate([
+                'jumlah' => $this->count,
+            ]);
+            $this->success('Keranjang berhasil diupdate');
+        } else {
+            $this->cart = Keranjang::castAndCreate([
+                'id_user' => request()->user()->id,
+                'id_barang' => $this->id,
+                'jumlah' => $this->count,
+            ]);
+            $this->success('Berhasil ditambahkan ke keranjang');
+        }
+    }
+
+    public function buy()
+    {
+        if (isset($this->cart)) {
+            $this->cart->castAndUpdate([
+                'jumlah' => $this->count,
+            ]);
+        } else {
+            $this->cart = Keranjang::castAndCreate([
+                'id_user' => request()->user()->id,
+                'id_barang' => $this->id,
+                'jumlah' => $this->count,
+            ]);
+        }
+        $this->redirect(route('confirmation') . '?ids=' . $this->cart->id, navigate: true);
+    }
+}; ?>
+
+<div>
+    <div class="mb-2 flex gap-10 bg-white p-4">
+        <img class="float-left block h-80 w-80 rounded border object-cover" src="{{ $barang->cover }}"
+            alt="{{ $barang->nama }}" />
+        <div class="flex-1">
+            <div class="flex justify-between">
                 <div>
-                    <p class="text-left text-lg font-semibold text-black">UBI UNGU dengan warnanya yang cerah dan kaya
-                        antioksidan, serta kandungan nutrisi seperti vitamin C, vitamin A, potasium, dan serat.</p>
-                    <div class="flex">
-                        <p class="text-left text-lg font-thin text-gray-500">Terjual 100+</p>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-1 h-5 w-5 text-yellow-500" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M10 2.472l2.761 5.653 6.23.904-4.513 4.39 1.068 6.192-5.546-2.917-5.547 2.917 1.068-6.192L1 9.029l6.231-.904L10 2.472z"
-                                clip-rule="evenodd" />
-
-                        </svg>
-                        <p class="mr-1 font-semibold text-black">5.5</p>
-
+                    <p class="text-left text-lg font-semibold text-black">{{ $barang->nama }}</p>
+                    <p class="text-left text-lg font-thin text-gray-500">{{ $barang->kategori->nama }}</p>
+                    <p class="mt-3 text-left text-3xl font-extrabold text-black">Rp.
+                        {{ number_format($barang->harga, 0, ',', '.') }}</p>
+                </div>
+                <div>
+                    <div class="flex items-center justify-center">
+                        <button wire:click='decrement'
+                            class="rounded-md border border-black px-4 py-1 text-sm font-semibold text-black hover:border-transparent hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">-</button>
+                        <p class="text-sm-center w-10 rounded-md px-4 py-1 font-semibold text-black">
+                            {{ $count }}</p>
+                        <button wire:click='increment'
+                            class="rounded-md border border-black px-4 py-1 text-sm font-semibold text-black hover:border-transparent hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">+</button>
+                        <span class="ml-4">Stok: {{ $barang->stok }}</span class="ml-4">
                     </div>
-                    <div class="flex justify-between">
-                        <p class="mt-3 text-left text-3xl font-extrabold text-black">Rp 10.000/kg</p>
-                        <div class="flex items-center justify-center">
-
-                            <button id="addButton"
-                                class="mt-3 rounded-md border border-black px-4 py-1 text-sm font-semibold text-black hover:border-transparent hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">+</button>
-                            <p id="quantity" class="text-sm-center mt-3 w-10 rounded-md px-4 py-1 font-semibold text-black">1</p>
-                            <button id="subtractButton"
-                                class="mt-3 rounded-md border border-black px-4 py-1 text-sm font-semibold text-black hover:border-transparent hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">-</button>
-                        </div>
-                    </div>
-
                     <div class="justify-rigt flex">
-                        <button
+                        <button wire:click='addToCart'
                             class="mr-2 mt-3 rounded-md border border-black px-4 py-1 text-sm font-semibold text-black hover:border-transparent hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Keranjang</button>
-                        <button
+                        <button wire:click='buy'
                             class="mt-3 rounded-md border border-black px-4 py-1 text-sm font-semibold text-black hover:border-transparent hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Beli</button>
                     </div>
-                    <p class="mt-5 border-b-2 border-gray-500 text-left text-lg font-thin text-black">Detail</p>
-                    <p class="mt-3 text-left text-lg font-light text-gray-500"> kondisi : baru</p>
-                    <p class="text-left text-lg font-light text-gray-500"> min. pemesanan : 1 kg</p>
-
-                    <p class="font-medium text-black">
-                        Ubi ungu kaya akan nutrisi penting seperti serat, vitamin B6, beta karoten, vitamin C, zinc,
-                        tembaga, antioksidan, dan antosianin. Manfaatnya meliputi menjaga berat badan, meningkatkan
-                        energi, kesehatan mata, pencernaan yang baik, kontrol gula darah, kesehatan jantung, dan
-                        mencegah kanker.
-                    </p>
                 </div>
-
             </div>
-
+            <div>
+                <p class="mt-5 border-b border-gray-500 text-left text-lg font-thin text-black">Detail</p>
+                <p class="font-medium text-black">
+                    {{ $barang->deskripsi }}
+                </p>
+            </div>
         </div>
     </div>
 
@@ -100,7 +161,8 @@
             </div>
         </div>
     </section>
-    <div class="mx-auto max-w-full space-y-2 bg-black px-8 py-8 shadow-lg sm:flex sm:items-center sm:space-x-6 sm:space-y-0 sm:py-4">
+    <div
+        class="mx-auto max-w-full space-y-2 bg-black px-8 py-8 shadow-lg sm:flex sm:items-center sm:space-x-6 sm:space-y-0 sm:py-4">
         <div class="space-y-8 text-left sm:text-center">
             <p class="mb-2 text-lg font-bold text-white">Apakah Anda puas dengan produk Anda?</p>
             <div class="relative">
@@ -122,33 +184,4 @@
                 class="ring-offset-background flex h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm placeholder:text-neutral-500 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
         </div>
     </div>
-<<<<<<< HEAD
-    
-
-
-
-=======
 </div>
->>>>>>> 47fb811d2305e125be5f25c195da15d358dbf2c5
-</x-app-layout>
-
-
-
-
-<script>
-        document.getElementById('addButton').addEventListener('click', function() {
-            console.log('plu');
-            var quantity = parseInt(document.getElementById('quantity').textContent);
-            quantity = quantity + 1;
-            document.getElementById('quantity').textContent = quantity;
-        });
-
-        document.getElementById('subtractButton').addEventListener('click', function() {
-            console.log('minu');
-            var quantity = parseInt(document.getElementById('quantity').textContent);
-            if (quantity > 0) {
-                quantity = quantity - 1;
-                document.getElementById('quantity').textContent = quantity;
-            }
-        });
-</script>

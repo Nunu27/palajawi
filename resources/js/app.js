@@ -7,8 +7,20 @@ window.formatInputNumber = (
 ) => {
     const data = +e.target.value.replace(/[^\d]/g, "");
 
-    e.target.value = data
-        ? prefix + data.toLocaleString("id") + suffix
+    e.target.value = formatNumber(data, {
+        prefix: prefix,
+        suffix: suffix,
+        zero: zero,
+        required: required,
+    });
+};
+
+window.formatNumber = (
+    number,
+    { prefix = "", suffix = "", zero = "0", required = true } = {}
+) => {
+    return number
+        ? prefix + number.toLocaleString("id") + suffix
         : required
         ? ""
         : prefix + zero;

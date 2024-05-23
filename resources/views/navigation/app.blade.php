@@ -1,6 +1,6 @@
-<?php
-$user = request()->user();
-?>
+@php
+    $user = request()->user();
+@endphp
 
 <nav x-data="{ open: false }" class="border-b border-gray-100 bg-white">
     <!-- Primary Navigation Menu -->
@@ -22,10 +22,7 @@ $user = request()->user();
                 </div>
             </div>
 
-            <div class="flex items-center">
-                <input type="search" class="h-9 rounded-l-full border border-gray-200 text-sm" placeholder="Cari">
-                <x-gmdi-search class="h-9 w-9 rounded-r-full border border-l-0 py-2 text-gray-500" />
-            </div>
+            <livewire:search-bar />
 
             <div class="hidden md:flex">
                 <x-auth-button />

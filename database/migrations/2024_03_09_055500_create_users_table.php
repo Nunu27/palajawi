@@ -20,8 +20,6 @@ return new class extends Migration {
             $table->boolean('admin');
             $table->rememberToken();
             $table->timestamps();
-
-            $table->fullText(['username', 'email']);
         });
     }
 

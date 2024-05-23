@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             'id_user' => 1,
             'total_harga' => 50000,
             'metode_pembayaran' => MetodePembayaran::PRIS,
-            'status' => StatusTransaksi::MenungguPembayaran,
+            'status' => StatusTransaksi::WAITING,
         ]);
     }
 }

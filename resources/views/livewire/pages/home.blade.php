@@ -1,15 +1,30 @@
-<x-app-layout title="Beranda">
-    {{-- TODO: Beranda UI --}}
+<?php
 
-    {{-- hero --}}
+use App\Models\Kategori;
+use App\Models\Barang;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Volt\Component;
+
+new #[Layout('layouts.app')] #[Title('Beranda')] class extends Component {
+    public function with()
+    {
+        return [
+            'kategoriList' => Kategori::all(),
+            'barangList' => Barang::latest()->with('kategori')->limit(5)->get(),
+        ];
+    }
+}; ?>
+
+<div>
     <div class="bg-emerald-500 pb-6 sm:pb-8 lg:pb-12">
         <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
             <section class="flex flex-col justify-between gap-6 sm:gap-10 md:gap-8 lg:flex-row">
                 <!-- content - start -->
-                <div class="flex flex-col justify-center sm:text-center lg:py-12 lg:text-left xl:w-8/12 xl:py-18">
+                <div class="xl:py-18 flex flex-col justify-center sm:text-center lg:py-12 lg:text-left xl:w-8/12">
 
                     <h1
-                        class="mb-8 text-4xl font-serif	font-family: ui-serif, Georgia, Cambria, font-bold text-white sm:text-5xl md:mb-12 md:text-6xl">
+                        class="font-family: ui-serif, Georgia, Cambria, mb-8 font-serif text-4xl font-bold text-white sm:text-5xl md:mb-12 md:text-6xl">
                         Don't miss our daily
                         amazing deal</h1>
 
@@ -42,16 +57,15 @@
         <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
             <div class="mb-6 flex items-end justify-between gap-4">
                 <h2
-                    class="text-2xl font-bold text-gray-800 lg:text-3xl font-sans font-family: ui-sans-serif, system-ui, sans-serif, ">
-                    Categories</h2>
+                    class="font-family: ui-sans-serif, system-ui, sans-serif, font-sans text-2xl font-bold text-gray-800 lg:text-3xl">
+                    Kategori</h2>
             </div>
 
             <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
                 <!-- product - start -->
-                <x-card.kategori class="umbi" />
-                <x-card.kategori class="umbi" />
-                <x-card.kategori class="umbi" />
-                <x-card.kategori class="umbi" />
+                @foreach ($kategoriList as $kategori)
+                    <x-card.kategori :id="$kategori->id" :gambar='$kategori->gambar' :nama='$kategori->nama' />
+                @endforeach
                 <!-- product - end -->
             </div>
         </div>
@@ -62,7 +76,7 @@
             <!-- text - start -->
             <div class="mb-6 flex items-end justify-between gap-4">
                 <h2
-                    class="text-2xl font-bold text-gray-800 lg:text-3xl font-sans font-family: ui-sans-serif, system-ui, sans-serif, ">
+                    class="font-family: ui-sans-serif, system-ui, sans-serif, font-sans text-2xl font-bold text-gray-800 lg:text-3xl">
                     Featured Product</h2>
 
                 <a href="#"
@@ -73,12 +87,10 @@
             <!-- text - end -->
 
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-                <x-card.featured />
-                <x-card.featured />
-                <x-card.featured />
-                <x-card.featured />
-                <x-card.featured />
-                <x-card.featured />
+                @foreach ($barangList as $barang)
+                    <x-card.barang :id="$barang->id" :cover="$barang->cover" :nama="$barang->nama" :namaKategori="$barang->kategori->nama"
+                        :harga="$barang->harga" :stok="$barang->stok" />
+                @endforeach
             </div>
         </div>
     </div>
@@ -284,8 +296,8 @@
                 </div>
                 <!-- nav - end -->
             </div>
-            <div class="border-t py-8 text-center text-sm text-gray-400">© 2021 - Present Flowrift. All rights
+            <div class="border-t py-8 text-center text-sm text-gray-400">© 2021 - Present Palajawi. All rights
                 reserved.</div>
         </footer>
     </div>
-</x-app-layout>
+</div>

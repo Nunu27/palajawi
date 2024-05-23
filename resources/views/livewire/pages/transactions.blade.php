@@ -7,12 +7,12 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
 
-new #[Layout('layouts.dashboard')] #[Title('Daftar Transaksi')] class extends Component {
+new #[Layout('layouts.app')] #[Title('Histori Transaksi')] class extends Component {
     use WithPagination;
 
     public $id;
 
-    public $columns = ['id', 'id_user', 'total_harga', 'status', 'updated_at'];
+    public $columns = ['id', 'total_harga', 'status', 'updated_at'];
     #[Url(as: 'per_page')]
     public int $perPage = 10;
     #[Url(except: '')]
@@ -25,7 +25,7 @@ new #[Layout('layouts.dashboard')] #[Title('Daftar Transaksi')] class extends Co
 
     public function with(): array
     {
-        $data = Transaksi::orderBy('updated_at');
+        $data = Transaksi::orderBy('updated_at', 'DESC');
         if ($this->query) {
             $data->where('id', 'ILIKE', '%' . trim($this->query) . '%');
         }
@@ -41,7 +41,11 @@ new #[Layout('layouts.dashboard')] #[Title('Daftar Transaksi')] class extends Co
 }; ?>
 
 <div>
-    <x-table route='transaksi' :data="$list" :columns="['id', 'id_user', ['total_harga', 'number', 'Rp. '], 'status', 'updated_at']" :headers="['ID', 'ID User', 'Total Harga', 'Status', 'Tanggal']" :actions="['view']">
+    <div class="mx-auto mb-6 max-w-7xl space-x-6 px-6 font-bold lg:px-8">
+        <x-nav-link.app route="profile">Data akun</x-nav-link.app>
+        <x-nav-link.app route="user.transactions">Histori Transaksi</x-nav-link.app>
+    </div>
+    <x-table route='user.transaction' :data="$list" :columns="['id', ['total_harga', 'number', 'Rp. '], 'status', 'updated_at']" :headers="['ID', 'Total Harga', 'Status', 'Tanggal']" :actions="['view']">
         <x-compact-search-bar />
     </x-table>
 </div>

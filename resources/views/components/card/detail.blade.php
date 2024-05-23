@@ -8,7 +8,7 @@
             <span class="mb-4 text-xl font-bold">Rp 100.000</span>
         </div>
         <div>
-            <x-button.a-primary class="mr-2" href="{{ route('user.transaction.detail', 1) }}">
+            <x-button.a-primary class="mr-2" href="{{ route('user.transaction.show', 1) }}">
                 Beli
             </x-button.a-primary>
             <x-button.a-secondary class="mr-2">
