@@ -46,6 +46,9 @@ new #[Layout('layouts.app')] #[Title('Detail')] class extends Component {
 
     public function addToCart()
     {
+        if (!request()->user()) {
+            return;
+        }
         if (isset($this->cart)) {
             $this->cart->castAndUpdate([
                 'jumlah' => $this->count,
@@ -63,6 +66,9 @@ new #[Layout('layouts.app')] #[Title('Detail')] class extends Component {
 
     public function buy()
     {
+        if (!request()->user()) {
+            return;
+        }
         if (isset($this->cart)) {
             $this->cart->castAndUpdate([
                 'jumlah' => $this->count,

@@ -25,9 +25,9 @@ new #[Layout('layouts.app')] #[Title('Histori Transaksi')] class extends Compone
 
     public function with(): array
     {
-        $data = Transaksi::orderBy('updated_at', 'DESC');
+        $data = Transaksi::orderBy('updated_at', 'DESC')->where('id_user', request()->user()->id);
         if ($this->query) {
-            $data->where('id', 'ILIKE', '%' . trim($this->query) . '%');
+            $data = $data->where('id', 'ILIKE', '%' . trim($this->query) . '%');
         }
         $list = $data->paginate($this->perPage, $this->columns);
 
@@ -36,7 +36,7 @@ new #[Layout('layouts.app')] #[Title('Histori Transaksi')] class extends Compone
 
     public function view()
     {
-        $this->redirect(route('transaksi.show', $this->id), navigate: true);
+        $this->redirect(route('user.transaction.show', $this->id), navigate: true);
     }
 }; ?>
 

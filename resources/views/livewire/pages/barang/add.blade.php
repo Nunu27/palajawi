@@ -41,7 +41,7 @@ new #[Layout('layouts.dashboard')] #[Title('Tambah Barang')] class extends Compo
         Barang::castAndCreate([
             'cover' => 'https://palajawi.s3.ap-southeast-1.amazonaws.com/' . $path,
             'nama' => $this->nama,
-            'id_kategori' => 1,
+            'id_kategori' => $this->idKategori,
             'deskripsi' => $this->deskripsi,
             'harga' => $this->parseNumberInput($this->harga),
             'stok' => $this->parseNumberInput($this->stok),
@@ -90,7 +90,7 @@ new #[Layout('layouts.dashboard')] #[Title('Tambah Barang')] class extends Compo
                 <div class="sm:col-span-3">
                     <x-input-label for="deskripsi" value="Deskripsi" />
                     <x-text-area id="deskripsi" class="mt-1 block w-full" type="text" name="deskripsi"
-                        wire:model='deskripsi' maxlength='4095' required autofocus />
+                        wire:model='deskripsi' required autofocus />
                     <x-input-error :messages="$errors->get('deskripsi')" class="mt-2" />
                 </div>
             </div>

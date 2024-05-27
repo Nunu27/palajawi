@@ -79,7 +79,7 @@ new #[Layout('layouts.app')] #[Title('Beranda')] class extends Component {
                     class="font-family: ui-sans-serif, system-ui, sans-serif, font-sans text-2xl font-bold text-gray-800 lg:text-3xl">
                     Featured Product</h2>
 
-                <a href="#"
+                <a href="{{ route('filter') }}"
                     class="inline-block rounded-lg border bg-white px-4 py-2 text-center text-sm font-semibold text-gray-500 outline-none ring-indigo-300 transition duration-100 hover:bg-gray-100 focus-visible:ring active:bg-gray-200 md:px-8 md:py-3 md:text-base">Show
                     more</a>
             </div>
