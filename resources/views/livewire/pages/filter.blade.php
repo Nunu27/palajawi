@@ -77,7 +77,7 @@ new #[Layout('layouts.app')] #[Title('Filter')] class extends Component {
 
         return [
             'kategori' => Kategori::all(),
-            'data' => $data->with('kategori')->paginate(2, ['id', 'cover', 'nama', 'id_kategori', 'harga', 'stok']),
+            'data' => $data->with('kategori')->paginate(20, ['id', 'cover', 'nama', 'id_kategori', 'harga', 'stok']),
         ];
     }
 }; ?>
